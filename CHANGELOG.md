@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/Roberdan/convergio-mcp/compare/convergio-mcp-v0.1.1...convergio-mcp-v0.1.2) (2026-04-12)
+
+
+### Bug Fixes
+
+* MCP ring default to Trusted + include error body in HTTP responses ([c7c9373](https://github.com/Roberdan/convergio-mcp/commit/c7c93734b5fd144ab9ce31100479038b2c8251af))
+
 ## [0.1.1](https://github.com/Roberdan/convergio-mcp/compare/convergio-mcp-v0.1.0...convergio-mcp-v0.1.1) (2026-04-11)
 
 
