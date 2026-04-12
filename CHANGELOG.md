@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/Roberdan/convergio-mcp/compare/convergio-mcp-v0.1.3...convergio-mcp-v0.1.4) (2026-04-12)
+
+
+### Documentation
+
+* copy ADR from monorepo ([8de8296](https://github.com/Roberdan/convergio-mcp/commit/8de829614ad9cb275963f87f4e9eb7510480837b))
+
 ## [0.1.3](https://github.com/Roberdan/convergio-mcp/compare/convergio-mcp-v0.1.2...convergio-mcp-v0.1.3) (2026-04-12)
 
 
