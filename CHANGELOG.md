@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/Roberdan/convergio-mcp/compare/convergio-mcp-v0.1.4...convergio-mcp-v0.1.5) (2026-04-12)
+
+
+### Documentation
+
+* add .env.example with required environment variables ([#7](https://github.com/Roberdan/convergio-mcp/issues/7)) ([9f0012c](https://github.com/Roberdan/convergio-mcp/commit/9f0012c999c109bf9b38e595c20c74248d7c2735))
+
 ## [0.1.4](https://github.com/Roberdan/convergio-mcp/compare/convergio-mcp-v0.1.3...convergio-mcp-v0.1.4) (2026-04-12)
 
 
