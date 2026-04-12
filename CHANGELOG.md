@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/Roberdan/convergio-mcp/compare/convergio-mcp-v0.1.2...convergio-mcp-v0.1.3) (2026-04-12)
+
+
+### Bug Fixes
+
+* audit improvements - security, bug fixes, and optimizations ([#4](https://github.com/Roberdan/convergio-mcp/issues/4)) ([1149916](https://github.com/Roberdan/convergio-mcp/commit/11499160fb51b7c8441b167042a5cd12c68017ab))
+
 ## [0.1.2](https://github.com/Roberdan/convergio-mcp/compare/convergio-mcp-v0.1.1...convergio-mcp-v0.1.2) (2026-04-12)
 
 
