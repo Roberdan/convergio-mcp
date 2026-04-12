@@ -43,7 +43,7 @@ async fn main() -> anyhow::Result<()> {
     let ring: u8 = std::env::var("CONVERGIO_MCP_RING")
         .ok()
         .and_then(|v| v.parse().ok())
-        .unwrap_or(3);
+        .unwrap_or(1); // Default to Trusted — local daemon access is trusted
 
     let daemon_url = std::env::var("CONVERGIO_DAEMON_URL")
         .unwrap_or_else(|_| "http://localhost:8420".to_string());

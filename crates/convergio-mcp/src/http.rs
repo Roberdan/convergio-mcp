@@ -25,10 +25,13 @@ pub fn http_get(url: &str, token: Option<&str>) -> Result<Value, McpError> {
         req = req.bearer_auth(t);
     }
     let resp = req.send().map_err(|_| McpError::DaemonUnreachable)?;
-    if !resp.status().is_success() {
+    let status = resp.status();
+    if !status.is_success() {
+        let body_text = resp.text().unwrap_or_default();
         return Err(McpError::DaemonError(format!(
-            "HTTP {}",
-            resp.status().as_u16()
+            "HTTP {}\n{}",
+            status.as_u16(),
+            body_text
         )));
     }
     resp.json::<Value>()
@@ -43,10 +46,13 @@ pub fn http_post(url: &str, token: Option<&str>, body: &Value) -> Result<Value, 
         req = req.bearer_auth(t);
     }
     let resp = req.send().map_err(|_| McpError::DaemonUnreachable)?;
-    if !resp.status().is_success() {
+    let status = resp.status();
+    if !status.is_success() {
+        let body_text = resp.text().unwrap_or_default();
         return Err(McpError::DaemonError(format!(
-            "HTTP {}",
-            resp.status().as_u16()
+            "HTTP {}\n{}",
+            status.as_u16(),
+            body_text
         )));
     }
     resp.json::<Value>()
