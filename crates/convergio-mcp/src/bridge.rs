@@ -6,7 +6,7 @@
 
 use serde_json::{json, Value};
 
-use crate::http::{http_get, http_post};
+use crate::http::{http_delete, http_get, http_post};
 use crate::registry::{build_url, HttpMethod, ToolDef};
 use crate::ring::McpError;
 
@@ -25,7 +25,7 @@ pub fn dispatch_tool(
             let body = strip_path_params(args, &def.path_params);
             http_post(&url, token, &body)
         }
-        HttpMethod::Delete => http_get(&url, token), // DELETE with no body
+        HttpMethod::Delete => http_delete(&url, token),
     }
 }
 
@@ -106,5 +106,48 @@ mod tests {
         );
         assert!(url.contains("status=done"));
         assert!(url.contains("limit=10"));
+    }
+
+    #[test]
+    fn build_url_encodes_special_chars_in_path_params() {
+        use crate::registry::HttpMethod;
+        use crate::ring::Ring;
+        let def = ToolDef {
+            name: "test_removal".into(),
+            description: "test".into(),
+            method: HttpMethod::Get,
+            path: "/api/check/:module_id".into(),
+            input_schema: json!({}),
+            min_ring: Ring::Sandboxed,
+            path_params: vec!["module_id".into()],
+        };
+        let url = build_url(
+            &def,
+            &json!({"module_id": "../../etc/passwd"}),
+            "http://localhost:8420",
+        );
+        assert!(
+            !url.contains("../"),
+            "path traversal must be percent-encoded"
+        );
+        assert!(url.contains("%2F"), "slashes must be encoded");
+    }
+
+    #[test]
+    fn build_url_encodes_special_chars_in_query() {
+        use crate::registry::HttpMethod;
+        use crate::ring::Ring;
+        let def = ToolDef {
+            name: "test_q".into(),
+            description: "test".into(),
+            method: HttpMethod::Get,
+            path: "/api/search".into(),
+            input_schema: json!({}),
+            min_ring: Ring::Sandboxed,
+            path_params: vec![],
+        };
+        let url = build_url(&def, &json!({"q": "a&b=c"}), "http://localhost:8420");
+        assert!(!url.contains("&b=c"), "query injection must be encoded");
+        assert!(url.contains("%26"), "ampersand must be encoded");
     }
 }

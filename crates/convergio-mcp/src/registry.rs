@@ -6,6 +6,8 @@
 //!
 //! Dynamic tools are preferred and refreshed on each startup.
 
+use std::fmt::Write;
+
 use serde_json::Value;
 
 use crate::ring::Ring;
@@ -122,16 +124,33 @@ pub fn find_tool_def<'a>(defs: &'a [ToolDef], name: &str) -> Option<&'a ToolDef>
 
 // ── URL builder ──────────────────────────────────────────────────────────────
 
+/// Percent-encode a value for safe inclusion in URL path segments or query values.
+/// Preserves RFC 3986 unreserved characters: A-Z a-z 0-9 - _ . ~
+fn percent_encode(s: &str) -> String {
+    let mut out = String::with_capacity(s.len());
+    for b in s.bytes() {
+        match b {
+            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => {
+                out.push(b as char);
+            }
+            _ => {
+                write!(out, "%{b:02X}").expect("write to String cannot fail");
+            }
+        }
+    }
+    out
+}
+
 pub fn build_url(def: &ToolDef, args: &Value, daemon_url: &str) -> String {
     let mut path = def.path.clone();
     for param in &def.path_params {
         if let Some(val) = args.get(param.as_str()) {
-            let replacement = match val {
+            let raw = match val {
                 Value::Number(n) => n.to_string(),
                 Value::String(s) => s.clone(),
                 _ => val.to_string(),
             };
-            path = path.replace(&format!(":{param}"), &replacement);
+            path = path.replace(&format!(":{param}"), &percent_encode(&raw));
         }
     }
     if def.method == HttpMethod::Get {
@@ -144,7 +163,7 @@ pub fn build_url(def: &ToolDef, args: &Value, daemon_url: &str) -> String {
                         Value::String(s) => s.clone(),
                         _ => v.to_string(),
                     };
-                    format!("{k}={val}")
+                    format!("{}={}", percent_encode(k), percent_encode(&val))
                 })
                 .collect();
             if !qs.is_empty() {
