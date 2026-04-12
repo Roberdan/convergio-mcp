@@ -4,6 +4,7 @@ description = "MCP server for Convergio — exposes daemon tools via rmcp SDK"
 version = "0.1.2"
 edition.workspace = true
 license.workspace = true
+readme = "../../README.md"
 
 [[bin]]
 name = "convergio-mcp-server"
