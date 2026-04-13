@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.7](https://github.com/Roberdan/convergio-mcp/compare/v0.1.6...v0.1.7) (2026-04-13)
+
+
+### Features
+
+* register 6 missing MCP tools in static fallback registry ([471b452](https://github.com/Roberdan/convergio-mcp/commit/471b452147e091b4e3a4ff9ffed3bb6f0d434885))
+* register 6 missing MCP tools in static fallback registry ([08bfd5f](https://github.com/Roberdan/convergio-mcp/commit/08bfd5f41a0721c27eac370508d2319b57a2306d))
+
 ## [0.1.6](https://github.com/Roberdan/convergio-mcp/compare/v0.1.5...v0.1.6) (2026-04-13)
 
 
