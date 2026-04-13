@@ -39,7 +39,10 @@ pub enum HttpMethod {
 /// Falls back to static defs from `registry_defs` if daemon is unreachable.
 pub fn fetch_tool_defs(daemon_url: &str, token: Option<&str>) -> Vec<ToolDef> {
     let url = format!("{daemon_url}/api/meta/mcp-tools");
-    let client = reqwest::blocking::Client::new();
+    let client = reqwest::blocking::Client::builder()
+        .timeout(std::time::Duration::from_secs(5))
+        .build()
+        .unwrap_or_else(|_| reqwest::blocking::Client::new());
     let mut req = client.get(&url);
     if let Some(t) = token {
         req = req.header("Authorization", format!("Bearer {t}"));
@@ -49,9 +52,30 @@ pub fn fetch_tool_defs(daemon_url: &str, token: Option<&str>) -> Vec<ToolDef> {
         Ok(body) => body
             .get("tools")
             .and_then(|t| t.as_array())
-            .map(|tools| tools.iter().filter_map(parse_mcp_tool_def).collect())
+            .map(|tools| {
+                tools
+                    .iter()
+                    .filter_map(|v| {
+                        let parsed = parse_mcp_tool_def(v);
+                        if parsed.is_none() {
+                            tracing::warn!(
+                                tool_json = %v,
+                                "skipping malformed MCP tool definition from daemon"
+                            );
+                        }
+                        parsed
+                    })
+                    .collect()
+            })
             .unwrap_or_default(),
-        Err(_) => Vec::new(),
+        Err(e) => {
+            tracing::warn!(
+                error = %e,
+                daemon_url,
+                "daemon unreachable during tool discovery, using static fallback defs"
+            );
+            Vec::new()
+        }
     };
 
     // Merge: dynamic tools take precedence, static fill gaps (synthetic tools)
