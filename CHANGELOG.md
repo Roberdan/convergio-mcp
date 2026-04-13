@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.8](https://github.com/Roberdan/convergio-mcp/compare/v0.1.7...v0.1.8) (2026-04-13)
+
+
+### Bug Fixes
+
+* pass CARGO_REGISTRY_TOKEN to release workflow ([0dc2883](https://github.com/Roberdan/convergio-mcp/commit/0dc2883a06f2d55a753b958625046e8db5d4b386))
+
 ## [0.1.7](https://github.com/Roberdan/convergio-mcp/compare/v0.1.6...v0.1.7) (2026-04-13)
 
 
