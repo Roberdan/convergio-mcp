@@ -1,7 +1,7 @@
 [package]
 name = "convergio-mcp"
 description = "MCP server for Convergio — exposes daemon tools via rmcp SDK"
-version = "0.1.7"
+version = "0.1.8"
 edition.workspace = true
 license.workspace = true
 readme = "../../README.md"
