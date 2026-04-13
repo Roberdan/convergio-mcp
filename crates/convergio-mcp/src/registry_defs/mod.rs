@@ -9,7 +9,7 @@ use crate::ring::Ring;
 mod extended;
 
 pub fn all_defs() -> Vec<ToolDef> {
-    let mut defs = Vec::with_capacity(16);
+    let mut defs = Vec::with_capacity(22);
     defs.push(ceo_tool_def());
     defs.extend(synthetic_workflow_defs());
     defs.extend(extended::action_defs());
