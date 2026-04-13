@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.1.6](https://github.com/Roberdan/convergio-mcp/compare/v0.1.5...v0.1.6) (2026-04-13)
+
+
+### Features
+
+* initial convergio-mcp from template ([24b34da](https://github.com/Roberdan/convergio-mcp/commit/24b34dacabe23e5866208083564d8f9e0c41d1ab))
+
+
+### Bug Fixes
+
+* add SDK license exceptions to deny.toml + claude settings ([f1007bf](https://github.com/Roberdan/convergio-mcp/commit/f1007bfd135d2eaa21a31123a25a8abdbbb59571))
+* allow CDLA-Permissive-2.0 license in deny.toml ([c9252ff](https://github.com/Roberdan/convergio-mcp/commit/c9252ffe701804147ae667d23f42edcf1e3ff911))
+* audit improvements - security, bug fixes, and optimizations ([#4](https://github.com/Roberdan/convergio-mcp/issues/4)) ([1149916](https://github.com/Roberdan/convergio-mcp/commit/11499160fb51b7c8441b167042a5cd12c68017ab))
+* MCP ring default to Trusted + include error body in HTTP responses ([c7c9373](https://github.com/Roberdan/convergio-mcp/commit/c7c93734b5fd144ab9ce31100479038b2c8251af))
+* **release:** use vX.Y.Z tag format (remove component) ([86366a4](https://github.com/Roberdan/convergio-mcp/commit/86366a45b1cd856fe7c7088b0d6a299dbd411eb9))
+
+
+### Documentation
+
+* add .env.example with required environment variables ([#7](https://github.com/Roberdan/convergio-mcp/issues/7)) ([9f0012c](https://github.com/Roberdan/convergio-mcp/commit/9f0012c999c109bf9b38e595c20c74248d7c2735))
+* copy ADR from monorepo ([8de8296](https://github.com/Roberdan/convergio-mcp/commit/8de829614ad9cb275963f87f4e9eb7510480837b))
+
 ## [0.1.5](https://github.com/Roberdan/convergio-mcp/compare/convergio-mcp-v0.1.4...convergio-mcp-v0.1.5) (2026-04-12)
 
 
