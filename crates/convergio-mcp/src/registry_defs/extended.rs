@@ -109,5 +109,98 @@ pub fn action_defs() -> Vec<ToolDef> {
             min_ring: Ring::Community,
             path_params: vec!["module_id".into()],
         },
+        // ── Plan/task management (orchestrator) ─────────────────────────
+        ToolDef {
+            name: "cvg_get_execution_tree".into(),
+            description: "Get execution tree for a plan with waves and tasks.".into(),
+            method: HttpMethod::Get,
+            path: "/api/plan-db/execution-tree/:plan_id".into(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {"plan_id": {"type": "integer"}},
+                "required": ["plan_id"]
+            }),
+            min_ring: Ring::Community,
+            path_params: vec!["plan_id".into()],
+        },
+        ToolDef {
+            name: "cvg_update_task".into(),
+            description: "Update task status or notes. Status: pending, in_progress, submitted."
+                .into(),
+            method: HttpMethod::Post,
+            path: "/api/plan-db/task/update".into(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {
+                    "task_id": {"type": "integer"},
+                    "status": {"type": "string", "enum": ["pending","in_progress","submitted"]},
+                    "agent_id": {"type": "string"},
+                    "notes": {"type": "string"},
+                    "summary": {"type": "string"}
+                },
+                "required": ["task_id", "status", "agent_id"]
+            }),
+            min_ring: Ring::Trusted,
+            path_params: vec![],
+        },
+        ToolDef {
+            name: "cvg_complete_task".into(),
+            description:
+                "Atomically complete a task: set notes, record evidence, and submit.".into(),
+            method: HttpMethod::Post,
+            path: "/api/plan-db/task/complete-flow".into(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {
+                    "task_db_id": {"type": "integer"},
+                    "agent_id": {"type": "string"},
+                    "pr_url": {"type": "string"},
+                    "test_command": {"type": "string"},
+                    "test_output": {"type": "string"},
+                    "test_exit_code": {"type": "integer"},
+                    "notes": {"type": "string"}
+                },
+                "required": ["task_db_id", "agent_id", "pr_url"]
+            }),
+            min_ring: Ring::Trusted,
+            path_params: vec![],
+        },
+        ToolDef {
+            name: "cvg_validate_plan".into(),
+            description:
+                "Run Thor validation for a plan. All wave tasks must be submitted first.".into(),
+            method: HttpMethod::Post,
+            path: "/api/plan-db/validate".into(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {"plan_id": {"type": "integer"}},
+                "required": ["plan_id"]
+            }),
+            min_ring: Ring::Trusted,
+            path_params: vec![],
+        },
+        // ── Night agents ────────────────────────────────────────────────
+        ToolDef {
+            name: "cvg_list_night_agents".into(),
+            description: "List all night agent definitions with status.".into(),
+            method: HttpMethod::Get,
+            path: "/api/night-agents".into(),
+            input_schema: json!({"type": "object", "properties": {}}),
+            min_ring: Ring::Sandboxed,
+            path_params: vec![],
+        },
+        ToolDef {
+            name: "cvg_trigger_night_agent".into(),
+            description: "Trigger a night agent run by definition ID.".into(),
+            method: HttpMethod::Post,
+            path: "/api/night-agents/:agent_id/trigger".into(),
+            input_schema: json!({
+                "type": "object",
+                "properties": {"agent_id": {"type": "integer"}},
+                "required": ["agent_id"]
+            }),
+            min_ring: Ring::Trusted,
+            path_params: vec!["agent_id".into()],
+        },
     ]
 }
